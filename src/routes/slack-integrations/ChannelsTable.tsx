@@ -10,11 +10,11 @@ import Paper from "@mui/material/Paper";
 
 type Props = {
   channels: {
-    id: number;
-    first_name: string;
-    last_name: string;
-    email: string;
-    birthday: string;
+    integration_id: number;
+    dispatch_name: string;
+    channel_name: string;
+    create_moskit_deal: boolean;
+    active: boolean;
   }[];
 };
 
@@ -31,19 +31,21 @@ const ChannelsTable = (props: Props) => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Birthday</TableCell>
+            <TableCell>Despacho</TableCell>
+            <TableCell>Canal do Slack</TableCell>
+            <TableCell>Criar deal Moskit?</TableCell>
+            <TableCell>Ativo</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.channels.map((channel) => (
-            <TableRow key={channel.id}>
-              <TableCell>{channel.first_name}</TableCell>
-              <TableCell>{channel.last_name}</TableCell>
-              <TableCell>{channel.email}</TableCell>
-              <TableCell>{channel.birthday}</TableCell>
+            <TableRow key={channel.integration_id}>
+              <TableCell>{channel.dispatch_name}</TableCell>
+              <TableCell>{channel.channel_name}</TableCell>
+              <TableCell>
+                {channel.create_moskit_deal ? "Sim" : "Não"}
+              </TableCell>
+              <TableCell>{channel.active ? "Sim" : "Não"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
