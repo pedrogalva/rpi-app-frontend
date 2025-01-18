@@ -1,5 +1,6 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import useAxios from "axios-hooks";
 
 import MessageContainer from "../components/message-container";
@@ -18,12 +19,13 @@ type SlackData = {
   channel_name: string;
 }[];
 
-const SlackIntegrationPage = () => {
+const IntegrationPage = () => {
   const [isCreateIntegrationOpen, setIsCreateIntegrationOpen] = useState(false);
 
+  let { id } = useParams();
+
   const [integrationsData, refetchIntegrations] = useAxios(
-    process.env.REACT_APP_BACKEND_BASE_URL +
-      "/rpi/get_slack_integrations?limit=50"
+    process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_integration/" + id
   );
 
   const [slackChannelsData, refetchChannels] = useAxios(
@@ -65,7 +67,7 @@ const SlackIntegrationPage = () => {
       : { message: "Erro" };
     return (
       <MessageContainer>
-        <Box>Error loading users {errorVar.message}</Box>
+        <Box>Error loading integrations {errorVar.message}</Box>
         <Button variant="contained" onClick={() => refetchIntegrations()}>
           Retry
         </Button>
@@ -88,7 +90,7 @@ const SlackIntegrationPage = () => {
             setIsCreateIntegrationOpen(true);
           }}
         >
-          CADASTRAR INTEGRAÇÃO
+          EDITAR INTEGRAÇÃO
         </Button>
       </Box>
       <ChannelsTable channels={integrationsData.data.data} />
@@ -101,8 +103,6 @@ const SlackIntegrationPage = () => {
     </Box>
   );
 };
-
-export default SlackIntegrationPage;
 
 const formmatDataDispatches = (data: DispatchesData) => {
   return data.map((disp) => ({
@@ -117,3 +117,5 @@ const formmatDataChannels = (data: SlackData) => {
     label: disp.channel_name,
   }));
 };
+
+export default IntegrationPage;

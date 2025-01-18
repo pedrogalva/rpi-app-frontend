@@ -3,7 +3,7 @@ const filledButtonSx = {
   justifyContent: "right",
   gap: 1,
   marginBottom: 3,
-  margin: "4px 2px",
+  margin: "20px 2px",
   cursor: "pointer",
   borderRadius: "8px",
 };

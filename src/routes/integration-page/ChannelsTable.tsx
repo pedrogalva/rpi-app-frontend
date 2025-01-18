@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
 
 type Props = {
   channels: {
@@ -39,8 +37,6 @@ const TableHeaderCell = (props: Record<any, any>) => (
 );
 
 const ChannelsTable = (props: Props) => {
-  const navigate = useNavigate();
-
   return (
     <TableContainer component={Paper} sx={tableSx}>
       <Table aria-label="simple table">
@@ -50,7 +46,6 @@ const ChannelsTable = (props: Props) => {
             <TableHeaderCell>Canal do Slack</TableHeaderCell>
             <TableHeaderCell>Criar deal Moskit?</TableHeaderCell>
             <TableHeaderCell>Ativo</TableHeaderCell>
-            <TableHeaderCell align="right">Editar</TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,16 +57,6 @@ const ChannelsTable = (props: Props) => {
                 {channel.create_moskit_card ? "Sim" : "Não"}
               </TableCell>
               <TableCell>{channel.active ? "Sim" : "Não"}</TableCell>
-              <TableCell align="right">
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    navigate(`/integration/${channel.integration_id}`);
-                  }}
-                >
-                  VIEW
-                </Button>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
