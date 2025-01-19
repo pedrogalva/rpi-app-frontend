@@ -36,7 +36,6 @@ const SlackIntegrationPage = () => {
 
   const handleFormClosure = (_isCreateIntegrationOpen: boolean) => {
     setIsCreateIntegrationOpen(_isCreateIntegrationOpen);
-    refetchIntegrations();
   };
 
   if (
@@ -97,6 +96,7 @@ const SlackIntegrationPage = () => {
         dispatchesData={formmatDataDispatches(dispatchesData.data.data)}
         channelsData={formmatDataChannels(slackChannelsData.data.data)}
         handleClose={() => handleFormClosure(!isCreateIntegrationOpen)}
+        handleSubmission={() => refetchIntegrations()}
       />
     </Box>
   );

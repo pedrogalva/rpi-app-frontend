@@ -13,6 +13,7 @@ import SelectDropdow from "../components/select";
 
 type Props = {
   handleClose: () => void;
+  handleSubmission: () => void;
   open: boolean;
   selectedIntegration: {
     id: number;
@@ -33,6 +34,7 @@ type Props = {
 
 const UpdateIntegrationModal = ({
   handleClose,
+  handleSubmission,
   open,
   dispatchesData,
   channelsData,
@@ -62,6 +64,7 @@ const UpdateIntegrationModal = ({
   const onFormSubmit = async (data: any) => {
     data.integration_id = selectedIntegration.id;
     await executePost({ data });
+    handleSubmission();
     handleClose();
   };
 

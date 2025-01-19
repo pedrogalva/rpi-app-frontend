@@ -39,20 +39,33 @@ const IntegrationPage = () => {
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_dispatches"
   );
 
+  const [deleteData, executeDelete] = useAxios(
+    {
+      url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/delete_slack_integration/${id}`,
+      method: "DELETE",
+    },
+    { manual: true }
+  );
+
   const handleFormClosure = (_isCreateIntegrationOpen: boolean) => {
     setIsCreateIntegrationOpen(_isCreateIntegrationOpen);
-    refetchIntegrations();
   };
 
   const handleDeleteFormClosure = (_isDeleteIntegrationOpen: boolean) => {
     setIsDeleteIntegrationOpen(_isDeleteIntegrationOpen);
+  };
+
+  const handleDeleteFormConfirm = async (_isDeleteIntegrationOpen: boolean) => {
+    setIsDeleteIntegrationOpen(_isDeleteIntegrationOpen);
+    await executeDelete();
     navigate("/");
   };
 
   if (
     integrationsData.loading ||
     slackChannelsData.loading ||
-    dispatchesData.loading
+    dispatchesData.loading ||
+    deleteData.loading
   ) {
     return (
       <MessageContainer>
@@ -64,7 +77,8 @@ const IntegrationPage = () => {
   if (
     integrationsData.error ||
     slackChannelsData.error ||
-    dispatchesData.error
+    dispatchesData.error ||
+    deleteData.error
   ) {
     let errorVar = integrationsData.error
       ? integrationsData.error
@@ -72,6 +86,8 @@ const IntegrationPage = () => {
       ? slackChannelsData.error
       : dispatchesData.error
       ? dispatchesData.error
+      : deleteData.error
+      ? deleteData.error
       : { message: "Erro" };
     return (
       <MessageContainer>
@@ -118,12 +134,11 @@ const IntegrationPage = () => {
         dispatchesData={formmatDataDispatches(dispatchesData.data.data)}
         channelsData={formmatDataChannels(slackChannelsData.data.data)}
         handleClose={() => handleFormClosure(!isCreateIntegrationOpen)}
+        handleSubmission={() => refetchIntegrations()}
       />
       <DeleteIntegrationModal
         open={isDeleteIntegrationOpen}
-        // selectedIntegration={formatSelectedData(integrationsData.data.data[0])}
-        // dispatchesData={formmatDataDispatches(dispatchesData.data.data)}
-        // channelsData={formmatDataChannels(slackChannelsData.data.data)}
+        handleConfirm={() => handleDeleteFormConfirm(!isDeleteIntegrationOpen)}
         handleClose={() => handleDeleteFormClosure(!isDeleteIntegrationOpen)}
       />
     </Box>

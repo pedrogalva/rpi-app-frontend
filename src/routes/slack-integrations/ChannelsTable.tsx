@@ -54,26 +54,30 @@ const ChannelsTable = (props: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.channels.map((channel) => (
-            <TableRow key={channel.integration_id}>
-              <TableCell align="left">{channel.inpi_dispatch_name}</TableCell>
-              <TableCell>{channel.channel_name}</TableCell>
-              <TableCell>
-                {channel.create_moskit_card ? "Sim" : "Não"}
-              </TableCell>
-              <TableCell>{channel.active ? "Sim" : "Não"}</TableCell>
-              <TableCell align="right">
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    navigate(`/integration/${channel.integration_id}`);
-                  }}
-                >
-                  VIEW
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {props.channels
+            .sort((a, b) =>
+              a.inpi_dispatch_name.localeCompare(b.inpi_dispatch_name)
+            )
+            .map((channel) => (
+              <TableRow key={channel.integration_id}>
+                <TableCell align="left">{channel.inpi_dispatch_name}</TableCell>
+                <TableCell>{channel.channel_name}</TableCell>
+                <TableCell>
+                  {channel.create_moskit_card ? "Sim" : "Não"}
+                </TableCell>
+                <TableCell>{channel.active ? "Sim" : "Não"}</TableCell>
+                <TableCell align="right">
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      navigate(`/integration/${channel.integration_id}`);
+                    }}
+                  >
+                    VIEW
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
