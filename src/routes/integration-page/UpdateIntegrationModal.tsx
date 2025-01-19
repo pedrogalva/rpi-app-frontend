@@ -14,6 +14,13 @@ import SelectDropdow from "../components/select";
 type Props = {
   handleClose: () => void;
   open: boolean;
+  selectedIntegration: {
+    id: number;
+    channelName: string;
+    dispatchName: string;
+    createMoskitCard: boolean;
+    active: boolean;
+  };
   dispatchesData: {
     id: number;
     label: string;
@@ -24,30 +31,36 @@ type Props = {
   }[];
 };
 
-const CreateIntegrationModal = ({
+const UpdateIntegrationModal = ({
   handleClose,
   open,
   dispatchesData,
   channelsData,
+  selectedIntegration,
 }: Props) => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      rpi_dispatch_id: "",
-      slack_channel_id: "",
-      create_moskit_card: false,
-      active: false,
+      rpi_dispatch_id: dispatchesData.find(
+        (item) => item.label === selectedIntegration.dispatchName
+      )?.id,
+      slack_channel_id: channelsData.find(
+        (item) => item.label === selectedIntegration.channelName
+      )?.id,
+      create_moskit_card: selectedIntegration.createMoskitCard,
+      active: selectedIntegration.active,
     },
   });
 
   const [{ loading, error }, executePost] = useAxios(
     {
-      url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/create_new_rpi_slack_integration`,
+      url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/update_rpi_slack_integration`,
       method: "POST",
     },
     { manual: true }
   );
 
   const onFormSubmit = async (data: any) => {
+    data.integration_id = selectedIntegration.id;
     await executePost({ data });
     handleClose();
   };
@@ -76,8 +89,7 @@ const CreateIntegrationModal = ({
           >
             {error && (
               <Alert severity="error">
-                Sorry - there was an error creating the integration -{" "}
-                {error.message}
+                Sorry - there was an error updating the integration.
               </Alert>
             )}
             <Controller
@@ -86,9 +98,12 @@ const CreateIntegrationModal = ({
               render={({ field }) => (
                 <SelectDropdow
                   data={dispatchesData}
-                  defaultValue={field.value}
-                  onChange={(newValue) => field.onChange(newValue)}
+                  defaultValue={
+                    dispatchesData.find((item) => item.id === field.value)
+                      ?.label
+                  }
                   fieldName="Despacho"
+                  {...field}
                 />
               )}
             />
@@ -98,47 +113,40 @@ const CreateIntegrationModal = ({
               render={({ field }) => (
                 <SelectDropdow
                   data={channelsData}
-                  defaultValue={field.value}
-                  onChange={(newValue) => field.onChange(newValue)}
+                  defaultValue={
+                    channelsData.find((item) => item.id === field.value)?.label
+                  }
                   fieldName="Canal do Slack"
+                  {...field}
                 />
               )}
             />
-            <Controller
-              name="create_moskit_card"
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...field}
-                      checked={field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                    />
-                  }
-                  label="Criar card no Moskit?"
-                />
-              )}
-            />
-            <Controller
-              name="active"
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...field}
-                      checked={field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
-                    />
-                  }
-                  label="Ativo?"
-                />
-              )}
-            />
-
+            <Box>
+              <Controller
+                name="create_moskit_card"
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={<Checkbox {...field} checked={field.value} />}
+                    label="Criar Moskit Card"
+                  />
+                )}
+              />
+            </Box>
+            <Box>
+              <Controller
+                name="active"
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={<Checkbox {...field} checked={field.value} />}
+                    label="Ativo?"
+                  />
+                )}
+              />
+            </Box>
             <Button variant="contained" type="submit" disabled={loading}>
-              CRIAR
+              EDITAR
             </Button>
           </Box>
         </form>
@@ -147,4 +155,4 @@ const CreateIntegrationModal = ({
   );
 };
 
-export default CreateIntegrationModal;
+export default UpdateIntegrationModal;

@@ -1,12 +1,13 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxios from "axios-hooks";
 
 import MessageContainer from "../components/message-container";
 import Header from "../components/header";
 import ChannelsTable from "./ChannelsTable";
-import CreateIntegrationModal from "./CreateIntegrationModal";
+import UpdateIntegrationModal from "./UpdateIntegrationModal";
+import DeleteIntegrationModal from "./DeleteIntegrationModal";
 import { filledButtonSx } from "../components/_style/button";
 
 type DispatchesData = {
@@ -21,8 +22,10 @@ type SlackData = {
 
 const IntegrationPage = () => {
   const [isCreateIntegrationOpen, setIsCreateIntegrationOpen] = useState(false);
+  const [isDeleteIntegrationOpen, setIsDeleteIntegrationOpen] = useState(false);
 
   let { id } = useParams();
+  const navigate = useNavigate();
 
   const [integrationsData, refetchIntegrations] = useAxios(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_integration/" + id
@@ -39,6 +42,11 @@ const IntegrationPage = () => {
   const handleFormClosure = (_isCreateIntegrationOpen: boolean) => {
     setIsCreateIntegrationOpen(_isCreateIntegrationOpen);
     refetchIntegrations();
+  };
+
+  const handleDeleteFormClosure = (_isDeleteIntegrationOpen: boolean) => {
+    setIsDeleteIntegrationOpen(_isDeleteIntegrationOpen);
+    navigate("/");
   };
 
   if (
@@ -83,6 +91,7 @@ const IntegrationPage = () => {
           "Esse app tem como finalidade facilitar a gestão de integrações da RPI com o Slack"
         }
       />
+
       <Box sx={filledButtonSx}>
         <Button
           variant="contained"
@@ -90,15 +99,32 @@ const IntegrationPage = () => {
             setIsCreateIntegrationOpen(true);
           }}
         >
-          EDITAR INTEGRAÇÃO
+          EDITAR
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => {
+            setIsDeleteIntegrationOpen(true);
+          }}
+        >
+          APAGAR
         </Button>
       </Box>
       <ChannelsTable channels={integrationsData.data.data} />
-      <CreateIntegrationModal
+      <UpdateIntegrationModal
         open={isCreateIntegrationOpen}
+        selectedIntegration={formatSelectedData(integrationsData.data.data[0])}
         dispatchesData={formmatDataDispatches(dispatchesData.data.data)}
         channelsData={formmatDataChannels(slackChannelsData.data.data)}
         handleClose={() => handleFormClosure(!isCreateIntegrationOpen)}
+      />
+      <DeleteIntegrationModal
+        open={isDeleteIntegrationOpen}
+        // selectedIntegration={formatSelectedData(integrationsData.data.data[0])}
+        // dispatchesData={formmatDataDispatches(dispatchesData.data.data)}
+        // channelsData={formmatDataChannels(slackChannelsData.data.data)}
+        handleClose={() => handleDeleteFormClosure(!isDeleteIntegrationOpen)}
       />
     </Box>
   );
@@ -116,6 +142,16 @@ const formmatDataChannels = (data: SlackData) => {
     id: Number(disp.channel_id),
     label: disp.channel_name,
   }));
+};
+
+const formatSelectedData = (data: any) => {
+  return {
+    id: data.integration_id,
+    channelName: data.channel_name,
+    dispatchName: data.inpi_dispatch_name,
+    createMoskitCard: data.create_moskit_card,
+    active: data.active,
+  };
 };
 
 export default IntegrationPage;
