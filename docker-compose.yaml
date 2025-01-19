@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  leitor_rpi_frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: leitor_rpi_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - redis_fast_api_conn
+
+networks:
+  redis_fast_api_conn:
+    external: true

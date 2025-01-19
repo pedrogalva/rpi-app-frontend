@@ -8,8 +8,8 @@ function RouterComp() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SlackIntegrationPage />} />
-        <Route Component={IntegrationPage} path="/integration/:id" />
+        <Route path="/front_rpi/" element={<SlackIntegrationPage />} />
+        <Route Component={IntegrationPage} path="/front_rpi/integration/:id" />
       </Routes>
     </BrowserRouter>
   );
