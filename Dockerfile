@@ -13,6 +13,9 @@ RUN npm install
 # Copiar todo o código-fonte
 COPY . .
 
+# Instalar dependência adicional necessária
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
 # Gerar a build da aplicação
 RUN npm run build
 
@@ -20,10 +23,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copiar a build gerada para a pasta de arquivos estáticos do Nginx
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copiar configuração customizada do Nginx, se necessário (opcional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /leitor_rpi_frontend/build /usr/share/nginx/html
 
 # Expor a porta 3000
 EXPOSE 3000
