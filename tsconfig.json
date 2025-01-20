@@ -1,23 +1,19 @@
+
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "es5",
+    "module": "commonjs",
     "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
     "outDir": "./dist",        // Diretório de saída para arquivos compilados
-    "rootDir": "./",           // Define a raiz como o diretório base
+    "rootDir": "./src",         // Define a raiz como o diretório base
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "server.ts"],  // Inclui os arquivos dentro de src e server.ts
+  "include": ["src"],  // Inclui os arquivos dentro de src
   "exclude": ["node_modules", "build"]
 }

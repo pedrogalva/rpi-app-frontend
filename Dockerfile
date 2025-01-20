@@ -1,23 +1,26 @@
-# Usa uma imagem base leve do Node.js
-FROM node:20-alpine
+FROM node:20
 
-# Define o diretório de trabalho
-WORKDIR /app
+# Working dir
+WORKDIR /usr/src/app
 
-# Copia os arquivos do projeto
+# Copy files from Build
 COPY package*.json ./
-COPY tsconfig.json ./
-COPY src/ ./src/
 COPY build/ ./build/
 
-# Instala dependências
-RUN npm install
+# Install Globals
+RUN npm install prettier -g
 
-# Compila os arquivos TypeScript
-RUN npx tsc
+# Install Files
+RUN npm install 
 
-# Expõe a porta
+# Copy SRC
+COPY . .
+
+# Build
+# RUN npm run build
+
+# Open Port
 EXPOSE 3000
 
-# Comando para iniciar o servidor
-CMD ["node", "dist/server.js"]
+# Docker Command to Start Service
+CMD [ "node", "build/server.js" ]
