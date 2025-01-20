@@ -1,44 +1,23 @@
-# # Etapa 1: Build
-# FROM node:20 AS build
+# Usa uma imagem base leve do Node.js
+FROM node:20-alpine
 
-# # Definir o diretório de trabalho
-# WORKDIR /leitor_rpi_frontend
+# Define o diretório de trabalho
+WORKDIR /app
 
-# # Copiar arquivos de configuração
-# COPY package.json package-lock.json ./
+# Copia os arquivos do projeto
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY src/ ./src/
+COPY build/ ./build/
 
-# # Instalar dependências
-# RUN npm install
+# Instala dependências
+RUN npm install
 
-# # Copiar todo o código-fonte
-# COPY . .
+# Compila os arquivos TypeScript
+RUN npx tsc
 
-# # Instalar dependência adicional necessária
-# RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
-
-# # Gerar a build da aplicação
-# RUN npm run build
-
-# # Etapa 2: Servir com Nginx
-# FROM nginx:alpine
-
-# # Copiar a build gerada para a pasta de arquivos estáticos do Nginx
-# COPY --from=build /leitor_rpi_frontend/build /usr/share/nginx/html
-
-# # Expor a porta 3000
-# EXPOSE 3000
-
-# # Comando para iniciar o Nginx
-# CMD ["nginx", "-g", "daemon off;"]
-
-# Servir com Nginx
-FROM nginx:alpine
-
-# Copiar a build gerada localmente para a pasta de arquivos estáticos do Nginx
-COPY build /usr/share/nginx/html
-
-# Expor a porta 3000
+# Expõe a porta
 EXPOSE 3000
 
-# Comando para iniciar o Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para iniciar o servidor
+CMD ["node", "dist/server.js"]
