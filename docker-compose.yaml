@@ -7,9 +7,12 @@ services:
       dockerfile: Dockerfile
     container_name: leitor_rpi_frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     networks:
       - redis_fast_api_conn
+    volumes:
+      - .:/app
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
 networks:
   redis_fast_api_conn:

@@ -1,26 +1,27 @@
-FROM node:20
+# Etapa 1: Construir o React App
+FROM node:20 as build
+WORKDIR /app
 
-# Working dir
-WORKDIR /usr/src/app
+# Copiar arquivos necessários para o build
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . ./
 
-# Copy files from Build
-COPY package*.json ./
-COPY build/ ./build/
-
-# Install Globals
-RUN npm install prettier -g
-
-# Install Files
-RUN npm install 
-
-# Copy SRC
-COPY . .
-
-# Build
+# Construir a aplicação React
 # RUN npm run build
 
-# Open Port
-EXPOSE 3000
+# Etapa 2: Configurar o Nginx para servir os arquivos
+FROM nginx:stable-alpine AS production
 
-# Docker Command to Start Service
-CMD [ "node", "build/server.js" ]
+# Remover configurações padrão do Nginx e copiar o build do React
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Configurar o Nginx para lidar com React Router
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expor a porta padrão do Nginx
+EXPOSE 80
+
+# Iniciar o Nginx em modo foreground
+CMD ["nginx", "-g", "daemon off;"]

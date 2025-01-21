@@ -1,6 +1,6 @@
 {
   "name": "leitor-rpi-frontend",
-  "homepage": "/front_rpi",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
