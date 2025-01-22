@@ -7,17 +7,18 @@ const PORT = 3000;
 // Caminho para o build do React
 const reactBuildPath = path.join(__dirname, "../build");
 
-app.use("/", express.static(reactBuildPath));
+app.use("/front_rpi", express.static(reactBuildPath));
 
-app.get("/front_rpi", (req, res) => {
-  res.sendFile(path.join(reactBuildPath, "index.html"));
-  console.log(`Rota principal: deirecionando para ${reactBuildPath}`);
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(reactBuildPath, "index.html"));
+//   console.log(`Rota principal: deirecionando para ${reactBuildPath}`);
+// });
 
-app.get("/front_rpi/:id", (req, res) => {
+app.get("/front_rpi/*", (req, res) => {
   res.sendFile(path.join(reactBuildPath, "index.html"));
+  console.log(`Rota de integração: deirecionando para ${reactBuildPath}`);
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}/front_rpi`);
+  console.log(`Servidor rodando em http://localhost:${PORT}/`);
 });

@@ -6,10 +6,10 @@ import IntegrationPage from "./integration-page";
 
 function RouterComp() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/front_rpi">
       <Routes>
-        <Route path="/front_rpi" element={<SlackIntegrationPage />} />
-        <Route Component={IntegrationPage} path="/front_rpi/:id" />
+        <Route path="/" element={<SlackIntegrationPage />} />
+        <Route Component={IntegrationPage} path="/:id" />
       </Routes>
     </BrowserRouter>
   );
