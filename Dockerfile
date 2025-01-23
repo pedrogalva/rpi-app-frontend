@@ -6,10 +6,10 @@ WORKDIR /app
 COPY package.json ./
 
 # Instalar dependências
-RUN yarn install
+# RUN yarn install
 
-# Instalar dependência adicional necessária
-RUN yarn add -D @babel/plugin-proposal-private-property-in-object
+# # Instalar dependência adicional necessária
+# RUN yarn add -D @babel/plugin-proposal-private-property-in-object
 
 # Copiar o restante do código-fonte para o container
 COPY . ./
