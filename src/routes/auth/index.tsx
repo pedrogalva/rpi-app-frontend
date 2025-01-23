@@ -28,12 +28,9 @@ const GoogleLoginComp = () => {
     return (
       <MessageContainer>
         <Box>
-          Error loading integrations {error.message}
-          {error.name}
+          Error loading integrations {error.message}. Try again. You must use
+          your @moveonmarcas.com.br email.
         </Box>
-        <Button variant="contained" onClick={() => verifyCreds()}>
-          Retry
-        </Button>
       </MessageContainer>
     );
   }
