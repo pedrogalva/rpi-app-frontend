@@ -82,6 +82,7 @@ const SlackIntegrationPage = () => {
       />
       <Box sx={filledButtonSx}>
         <Button
+          sx={{ cursor: "pointer" }}
           variant="contained"
           onClick={() => {
             setIsCreateIntegrationOpen(true);

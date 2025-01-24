@@ -110,6 +110,7 @@ const IntegrationPage = () => {
 
       <Box sx={filledButtonSx}>
         <Button
+          sx={{ cursor: "pointer" }}
           variant="contained"
           onClick={() => {
             setIsCreateIntegrationOpen(true);
@@ -118,6 +119,7 @@ const IntegrationPage = () => {
           EDITAR
         </Button>
         <Button
+          sx={{ cursor: "pointer" }}
           variant="contained"
           color="error"
           onClick={() => {
