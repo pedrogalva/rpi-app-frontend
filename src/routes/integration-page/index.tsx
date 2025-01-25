@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useAxios from "axios-hooks";
+import useAxiosCustom from "../../hooks";
 
 import MessageContainer from "../components/message-container";
 import Header from "../components/header";
@@ -27,19 +27,19 @@ const IntegrationPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
 
-  const [integrationsData, refetchIntegrations] = useAxios(
+  const [integrationsData, refetchIntegrations] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_integration/" + id
   );
 
-  const [slackChannelsData, refetchChannels] = useAxios(
+  const [slackChannelsData, refetchChannels] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_channels"
   );
 
-  const [dispatchesData, refetchDispatches] = useAxios(
+  const [dispatchesData, refetchDispatches] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_dispatches"
   );
 
-  const [deleteData, executeDelete] = useAxios(
+  const [deleteData, executeDelete] = useAxiosCustom(
     {
       url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/delete_slack_integration/${id}`,
       method: "DELETE",

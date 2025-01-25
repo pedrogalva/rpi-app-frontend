@@ -2,26 +2,43 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { Box, CircularProgress, Button } from "@mui/material";
-import useAxios from "axios-hooks";
+import useAxiosCustom from "../../hooks";
 
 import MessageContainer from "../components/message-container";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
-const GoogleLoginComp = () => {
+type Props = {
+  base64RedirectUrl: string;
+};
+
+const GoogleLoginComp = (props: Props) => {
   const navigate = useNavigate();
 
-  const [{ loading, error }, verifyCreds] = useAxios(
+  const _url = props.base64RedirectUrl ? `?red=${props.base64RedirectUrl}` : "";
+
+  const [{ loading, error }, verifyCreds] = useAxiosCustom(
     {
-      url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/auth/verify`,
+      url: `${process.env.REACT_APP_BACKEND_BASE_URL}/auth/verify${_url}`,
       method: "POST",
     },
     { manual: true }
   );
 
   const handleLoginSuccess = async (data: any) => {
-    await verifyCreds({ data });
-    navigate("/");
+    const response = await verifyCreds({ data });
+    const token = response.data.token.access_token;
+
+    if (token) {
+      localStorage.setItem("token", token);
+
+      if (response.data.redirect) {
+        const url = atob(response.data.redirect);
+        window.location.href = url;
+      } else {
+        navigate("/");
+      }
+    }
   };
 
   if (error) {
@@ -31,6 +48,16 @@ const GoogleLoginComp = () => {
           Error loading integrations {error.message}. Try again. You must use
           your @moveonmarcas.com.br email.
         </Box>
+        <p></p>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          RETRY
+        </Button>
       </MessageContainer>
     );
   }

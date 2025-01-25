@@ -6,10 +6,26 @@ import IntegrationPage from "./integration-page";
 import GoogleLoginComp from "./auth";
 
 function RouterComp() {
+  let actualRoute = document.referrer;
+
+  if (
+    !actualRoute.includes("https://internal.moveonmarcas.com.br") &&
+    !actualRoute.includes("http://localhost:3000")
+  ) {
+    actualRoute = "";
+  } else if (actualRoute.includes("auth")) {
+    actualRoute = "";
+  } else {
+    actualRoute = btoa(actualRoute);
+  }
+
   return (
     <BrowserRouter basename="/front_rpi">
       <Routes>
-        <Route path="/auth" element={<GoogleLoginComp />} />
+        <Route
+          path="/auth"
+          element={<GoogleLoginComp base64RedirectUrl={actualRoute} />}
+        />
         <Route path="/" element={<SlackIntegrationPage />} />
         <Route Component={IntegrationPage} path="/:id" />
       </Routes>
