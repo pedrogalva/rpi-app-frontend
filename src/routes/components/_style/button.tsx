@@ -4,7 +4,6 @@ const filledButtonSx = {
   gap: 1,
   marginBottom: 3,
   margin: "20px 2px",
-  cursor: "pointer",
   borderRadius: "8px",
 };
 

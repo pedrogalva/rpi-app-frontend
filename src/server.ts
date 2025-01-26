@@ -9,14 +9,8 @@ const reactBuildPath = path.join(__dirname, "../build");
 
 app.use("/front_rpi", express.static(reactBuildPath));
 
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(reactBuildPath, "index.html"));
-//   console.log(`Rota principal: deirecionando para ${reactBuildPath}`);
-// });
-
 app.get("/front_rpi/*", (req, res) => {
   res.sendFile(path.join(reactBuildPath, "index.html"));
-  console.log(`Rota de integração: deirecionando para ${reactBuildPath}`);
 });
 
 app.listen(PORT, () => {

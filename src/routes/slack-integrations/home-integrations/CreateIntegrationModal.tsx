@@ -6,10 +6,10 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import useAxios from "axios-hooks";
+import useAxiosCustom from "../../../hooks";
 import { useForm, Controller } from "react-hook-form";
 
-import SelectDropdow from "../components/select";
+import SelectDropdow from "../../components/select";
 
 type Props = {
   handleClose: () => void;
@@ -41,7 +41,7 @@ const CreateIntegrationModal = ({
     },
   });
 
-  const [{ loading, error }, executePost] = useAxios(
+  const [{ loading, error }, executePost] = useAxiosCustom(
     {
       url: `${process.env.REACT_APP_BACKEND_BASE_URL}/rpi/create_new_rpi_slack_integration`,
       method: "POST",

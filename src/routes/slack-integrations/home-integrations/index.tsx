@@ -1,12 +1,12 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
-import useAxios from "axios-hooks";
+import useAxiosCustom from "../../../hooks";
 
-import MessageContainer from "../components/message-container";
-import Header from "../components/header";
+import MessageContainer from "../../components/message-container";
+import Header from "../../components/header";
 import ChannelsTable from "./ChannelsTable";
 import CreateIntegrationModal from "./CreateIntegrationModal";
-import { filledButtonSx } from "../components/_style/button";
+import { filledButtonSx } from "../../components/_style/button";
 
 type DispatchesData = {
   dispatch_id: number;
@@ -21,16 +21,16 @@ type SlackData = {
 const SlackIntegrationPage = () => {
   const [isCreateIntegrationOpen, setIsCreateIntegrationOpen] = useState(false);
 
-  const [integrationsData, refetchIntegrations] = useAxios(
+  const [integrationsData, refetchIntegrations] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL +
       "/rpi/get_slack_integrations?limit=50"
   );
 
-  const [slackChannelsData, refetchChannels] = useAxios(
+  const [slackChannelsData] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_channels"
   );
 
-  const [dispatchesData, refetchDispatches] = useAxios(
+  const [dispatchesData] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_dispatches"
   );
 
@@ -75,13 +75,14 @@ const SlackIntegrationPage = () => {
   return (
     <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
       <Header
-        title={"RPI App"}
+        title={"Integrações Slack"}
         subtitle={
-          "Esse app tem como finalidade facilitar a gestão de integrações da RPI com o Slack"
+          "Essa página é responsável por gerenciar as integrações do Slack com o RPI."
         }
       />
       <Box sx={filledButtonSx}>
         <Button
+          sx={{ cursor: "pointer" }}
           variant="contained"
           onClick={() => {
             setIsCreateIntegrationOpen(true);

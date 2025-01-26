@@ -1,16 +1,26 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter } from "react-router";
 
-import SlackIntegrationPage from "./slack-integrations";
-import IntegrationPage from "./integration-page";
+import IntegrationsRouter from "./slack-integrations/integrations-router";
+import HomePage from "./home/home-router";
+import AuthRouter from "./auth/auth-router";
+import RpisRouter from "./rpis/rpi-router";
+
+import MainPageHeader from "./components/page-header";
+import Sidebar from "./components/sidebar";
+import ContextProvider from "./context";
 
 function RouterComp() {
   return (
     <BrowserRouter basename="/front_rpi">
-      <Routes>
-        <Route path="/" element={<SlackIntegrationPage />} />
-        <Route Component={IntegrationPage} path="/:id" />
-      </Routes>
+      <ContextProvider>
+        <MainPageHeader />
+        <Sidebar />
+        <AuthRouter />
+        <HomePage />
+        <IntegrationsRouter />
+        <RpisRouter />
+      </ContextProvider>
     </BrowserRouter>
   );
 }
