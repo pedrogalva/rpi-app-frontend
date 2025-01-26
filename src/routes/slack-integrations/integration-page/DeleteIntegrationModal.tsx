@@ -18,7 +18,7 @@ const DeleteIntegrationModal = ({
   handleConfirm,
   open,
 }: Props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   return (
     <Modal open={open} onClose={handleClose}>
