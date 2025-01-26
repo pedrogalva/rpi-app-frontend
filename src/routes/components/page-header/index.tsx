@@ -6,10 +6,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, Tab, Tabs } from "@mui/material";
+
+import { useSidebar } from "../../context/SidebarContext";
+import { useAuth } from "../../context/AuthContext";
 
 const MainPageHeader = () => {
+  const { toggleSidebar } = useSidebar();
+
+  const { isAuthenticated } = useAuth();
+
   const navigate = useNavigate();
+
+  const handleClick = (open: boolean) => {
+    if (isAuthenticated) toggleSidebar(open);
+  };
 
   return (
     <AppBar position="static" color="primary">
@@ -19,6 +29,7 @@ const MainPageHeader = () => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={() => handleClick(true)}
         >
           <MenuIcon />
         </IconButton>
@@ -30,33 +41,6 @@ const MainPageHeader = () => {
           onClick={() => navigate("/")}
         >
           RPI App
-        </Typography>
-        <Typography
-          variant="inherit"
-          color="inherit"
-          component="div"
-          sx={{ alignItems: "center" }}
-        >
-          <Box
-            sx={{
-              cursor: "pointer",
-              borderBottom: 1,
-              borderColor: "divider",
-            }}
-          >
-            <Tabs
-              value={"value"}
-              textColor="secondary"
-              indicatorColor="secondary"
-              onChange={(event, newValue) => {
-                navigate(newValue);
-              }}
-              aria-label="basic tabs example"
-            >
-              <Tab value="/" label="INTEGRAÇÕES" />
-              <Tab value="/rpis" label="RPI" />
-            </Tabs>
-          </Box>
         </Typography>
       </Toolbar>
     </AppBar>

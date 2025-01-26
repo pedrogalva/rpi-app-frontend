@@ -1,21 +1,29 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { Box, CircularProgress, Button } from "@mui/material";
-import useAxiosCustom from "../../hooks";
 
+import useAxiosCustom from "../../hooks";
+import { useAuth } from "../context/AuthContext";
 import MessageContainer from "../components/message-container";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
-type Props = {
-  base64RedirectUrl: string;
-};
-
-const GoogleLoginComp = (props: Props) => {
+const GoogleLoginComp = () => {
+  const { login, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const _url = props.base64RedirectUrl ? `?red=${props.base64RedirectUrl}` : "";
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/integrations");
+    } else {
+      logout();
+    }
+  }, [isAuthenticated, logout, navigate]);
+
+  const [searchParams] = useSearchParams();
+
+  const _url = `?red=${searchParams.get("red")}`;
 
   const [{ loading, error }, verifyCreds] = useAxiosCustom(
     {
@@ -30,13 +38,14 @@ const GoogleLoginComp = (props: Props) => {
     const token = response.data.token.access_token;
 
     if (token) {
+      login();
       localStorage.setItem("token", token);
 
       if (response.data.redirect) {
         const url = atob(response.data.redirect);
-        window.location.href = url;
+        navigate(url);
       } else {
-        navigate("/");
+        navigate("/integrations");
       }
     }
   };

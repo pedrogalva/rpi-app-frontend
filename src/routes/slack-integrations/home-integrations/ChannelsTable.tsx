@@ -70,7 +70,7 @@ const ChannelsTable = (props: Props) => {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      navigate(`/${channel.integration_id}`);
+                      navigate(`/integrations/${channel.integration_id}`);
                     }}
                   >
                     VIEW

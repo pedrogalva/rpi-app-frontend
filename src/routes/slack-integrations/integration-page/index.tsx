@@ -1,14 +1,14 @@
 import { Box, Button, CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useAxiosCustom from "../../hooks";
+import useAxiosCustom from "../../../hooks";
 
-import MessageContainer from "../components/message-container";
-import Header from "../components/header";
+import MessageContainer from "../../components/message-container";
+import Header from "../../components/header";
 import ChannelsTable from "./ChannelsTable";
 import UpdateIntegrationModal from "./UpdateIntegrationModal";
 import DeleteIntegrationModal from "./DeleteIntegrationModal";
-import { filledButtonSx } from "../components/_style/button";
+import { filledButtonSx } from "../../components/_style/button";
 
 type DispatchesData = {
   dispatch_id: number;
@@ -31,11 +31,11 @@ const IntegrationPage = () => {
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_integration/" + id
   );
 
-  const [slackChannelsData, refetchChannels] = useAxiosCustom(
+  const [slackChannelsData] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_slack_channels"
   );
 
-  const [dispatchesData, refetchDispatches] = useAxiosCustom(
+  const [dispatchesData] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_dispatches"
   );
 
@@ -58,7 +58,7 @@ const IntegrationPage = () => {
   const handleDeleteFormConfirm = async (_isDeleteIntegrationOpen: boolean) => {
     setIsDeleteIntegrationOpen(_isDeleteIntegrationOpen);
     await executeDelete();
-    navigate("/");
+    navigate("/integrations");
   };
 
   if (
@@ -102,10 +102,8 @@ const IntegrationPage = () => {
   return (
     <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
       <Header
-        title={"RPI App"}
-        subtitle={
-          "Esse app tem como finalidade facilitar a gestão de integrações da RPI com o Slack"
-        }
+        title={"Integrações Slack"}
+        subtitle={"Aqui você pode editar ou apagar uma integração do Slack."}
       />
 
       <Box sx={filledButtonSx}>

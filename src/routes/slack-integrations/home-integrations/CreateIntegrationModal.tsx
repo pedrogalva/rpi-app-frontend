@@ -6,10 +6,10 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import useAxiosCustom from "../../hooks";
+import useAxiosCustom from "../../../hooks";
 import { useForm, Controller } from "react-hook-form";
 
-import SelectDropdow from "../components/select";
+import SelectDropdow from "../../components/select";
 
 type Props = {
   handleClose: () => void;
