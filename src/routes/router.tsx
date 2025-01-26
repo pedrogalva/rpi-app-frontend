@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import SlackIntegrationPage from "./slack-integrations";
 import IntegrationPage from "./integration-page";
 import GoogleLoginComp from "./auth";
+import MainPageHeader from "./components/page-header";
 
 function RouterComp() {
   let actualRoute = document.referrer;
@@ -21,6 +22,7 @@ function RouterComp() {
 
   return (
     <BrowserRouter basename="/front_rpi">
+      <MainPageHeader />
       <Routes>
         <Route
           path="/auth"
