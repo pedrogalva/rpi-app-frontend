@@ -6,6 +6,8 @@ import HomePage from "./home/home-router";
 import AuthRouter from "./auth/auth-router";
 import RpisRouter from "./rpis/rpi-router";
 
+import { RouteChangeValidator } from "./context/AuthContext";
+
 import MainPageHeader from "./components/page-header";
 import Sidebar from "./components/sidebar";
 import ContextProvider from "./context";
@@ -14,12 +16,14 @@ function RouterComp() {
   return (
     <BrowserRouter basename="/front_rpi">
       <ContextProvider>
-        <MainPageHeader />
-        <Sidebar />
-        <AuthRouter />
-        <HomePage />
-        <IntegrationsRouter />
-        <RpisRouter />
+        <RouteChangeValidator>
+          <MainPageHeader />
+          <Sidebar />
+          <AuthRouter />
+          <HomePage />
+          <IntegrationsRouter />
+          <RpisRouter />
+        </RouteChangeValidator>
       </ContextProvider>
     </BrowserRouter>
   );

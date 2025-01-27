@@ -30,7 +30,6 @@ const useAxiosCustom = (
   const [config] = result;
 
   if (config.error?.status === 401) {
-    localStorage.removeItem("token");
     logout();
 
     if (!currentPath.includes("/auth")) {

@@ -13,12 +13,12 @@ import { useAuth } from "../../context/AuthContext";
 const MainPageHeader = () => {
   const { toggleSidebar } = useSidebar();
 
-  const { isAuthenticated } = useAuth();
+  const { validateLogin } = useAuth();
 
   const navigate = useNavigate();
 
   const handleClick = (open: boolean) => {
-    if (isAuthenticated) toggleSidebar(open);
+    if (validateLogin()) toggleSidebar(open);
   };
 
   return (

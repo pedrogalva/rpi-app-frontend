@@ -10,16 +10,16 @@ import MessageContainer from "../components/message-container";
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
 const GoogleLoginComp = () => {
-  const { login, logout, isAuthenticated } = useAuth();
+  const { login, logout, validateLogin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/integrations");
+    if (validateLogin()) {
+      navigate("/");
     } else {
       logout();
     }
-  }, [isAuthenticated, logout, navigate]);
+  }, [validateLogin, logout, navigate]);
 
   const [searchParams] = useSearchParams();
 
@@ -43,9 +43,18 @@ const GoogleLoginComp = () => {
 
       if (response.data.redirect) {
         const url = atob(response.data.redirect);
-        navigate(url);
+        if (
+          !url.includes("auth") &&
+          !url.includes("null") &&
+          !url.includes("undefined") &&
+          !response.data.redirect.includes("null")
+        ) {
+          navigate(url);
+        } else {
+          navigate("/");
+        }
       } else {
-        navigate("/integrations");
+        navigate("/");
       }
     }
   };

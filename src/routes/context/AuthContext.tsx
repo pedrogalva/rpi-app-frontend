@@ -1,16 +1,12 @@
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Tipo para o contexto de autenticação
 interface AuthContextType {
-  isAuthenticated: boolean;
+  // isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
+  validateLogin: () => boolean;
 }
 
 // Cria o contexto
@@ -20,28 +16,30 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  // Carrega o estado inicial do localStorage
-  useEffect(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated");
-    setIsAuthenticated(storedAuth === "true");
-  }, []);
-
   // Função para logar o usuário
   const login = () => {
     localStorage.setItem("isAuthenticated", "true");
-    setIsAuthenticated(true);
+    // setIsAuthenticated(true);
   };
 
   // Função para deslogar o usuário
   const logout = () => {
     localStorage.setItem("isAuthenticated", "false");
-    setIsAuthenticated(false);
+    localStorage.removeItem("token");
+  };
+
+  const validateLogin = () => {
+    if (
+      localStorage.getItem("isAuthenticated") !== "true" ||
+      localStorage.getItem("token") === null
+    ) {
+      return false;
+    }
+    return true;
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ login, logout, validateLogin }}>
       {children}
     </AuthContext.Provider>
   );
@@ -54,4 +52,24 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+
+type RouteChangeValidatorProps = {
+  children: ReactNode;
+};
+
+export const RouteChangeValidator = ({
+  children,
+}: RouteChangeValidatorProps) => {
+  const { validateLogin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const val = validateLogin();
+    if (!val && !window.location.pathname.includes("/auth")) {
+      navigate("/auth");
+    }
+  }, [validateLogin, navigate]);
+
+  return <>{children}</>;
 };
