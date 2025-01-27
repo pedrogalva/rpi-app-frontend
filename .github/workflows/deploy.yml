@@ -18,31 +18,32 @@ jobs:
         with:
           node-version: 20
 
-      # - name: Set environment variables
-      #   run: |
-      #     echo "REACT_APP_BACKEND_BASE_URL=${{ secrets.REACT_APP_BACKEND_BASE_URL }}" >> .env
-      #     echo "REACT_APP_GOOGLE_CLIENT_ID=${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" >> .env
+      - name: Set environment variables
+        run: |
+          echo "REACT_APP_BACKEND_BASE_URL=${{ secrets.REACT_APP_BACKEND_BASE_URL }}" >> .env
+          echo "REACT_APP_GOOGLE_CLIENT_ID=${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" >> .env
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      # - name: Build application
-      #   run: npm run build
+      - name: Build application
+        run: npm run build
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      # - name: Deploy application
-      #   run: |
-      #     # Copiar arquivos build para a máquina virtual
-      #     scp -o StrictHostKeyChecking=no -r ./build/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/build
-      #     scp -o StrictHostKeyChecking=no -r ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/dist
+      - name: Deploy application
+        run: |
+          scp -o StrictHostKeyChecking=no -r ./build/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/build
+          scp -o StrictHostKeyChecking=no -r ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/dist
 
       #     # Acessar a máquina e reiniciar os serviços
       #     ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.HOST }} << 'EOF'
       #       cd leitor_rpi_frontend
+      #       git pull origin main
+
       #       docker-compose down
       #       docker-compose pull
       #       docker-compose up -d
