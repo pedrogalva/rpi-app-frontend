@@ -29,10 +29,10 @@ jobs:
       # - name: Build application
       #   run: npm run build
 
-      # - name: Set up SSH
-      #   uses: webfactory/ssh-agent@v0.5.4
-      #   with:
-      #     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       # - name: Deploy application
       #   run: |
