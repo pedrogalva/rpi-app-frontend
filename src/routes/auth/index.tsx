@@ -6,6 +6,7 @@ import { Box, CircularProgress, Button } from "@mui/material";
 import useAxiosCustom from "../../hooks";
 import { useAuth } from "../context/AuthContext";
 import MessageContainer from "../components/message-container";
+import Header from "../components/header";
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
@@ -90,6 +91,10 @@ const GoogleLoginComp = () => {
 
   return (
     <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
+      <Header
+        title="RPI App"
+        subtitle="Realize o Login utilizando sua conta da Move On."
+      />
       <GoogleOAuthProvider clientId={CLIENT_ID}>
         <GoogleLogin
           theme="filled_blue"
