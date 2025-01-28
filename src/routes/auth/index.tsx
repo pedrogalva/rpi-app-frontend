@@ -90,23 +90,32 @@ const GoogleLoginComp = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
+    <Box
+      sx={{ maxWidth: 800, margin: "80px auto", alignItems: "center" }}
+      component="section"
+    >
       <Header
         title="RPI App"
         subtitle="Realize o Login utilizando sua conta da Move On."
       />
-      <GoogleOAuthProvider clientId={CLIENT_ID}>
-        <GoogleLogin
-          theme="filled_blue"
-          shape="rectangular"
-          onSuccess={(credentialResponse) => {
-            handleLoginSuccess(credentialResponse);
-          }}
-          onError={() => {
-            console.log("Erro no login");
-          }}
-        />
-      </GoogleOAuthProvider>
+      <Box
+        sx={{ maxWidth: 300, margin: "80px auto", alignItems: "center" }}
+        component="section"
+      >
+        <GoogleOAuthProvider clientId={CLIENT_ID}>
+          <GoogleLogin
+            theme="filled_blue"
+            shape="rectangular"
+            size="large"
+            onSuccess={(credentialResponse) => {
+              handleLoginSuccess(credentialResponse);
+            }}
+            onError={() => {
+              console.log("Erro no login");
+            }}
+          />
+        </GoogleOAuthProvider>
+      </Box>
     </Box>
   );
 };
