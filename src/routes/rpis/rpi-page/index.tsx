@@ -5,11 +5,11 @@ import Pagination from "@mui/material/Pagination";
 import useAxiosCustom from "../../../hooks";
 import MessageContainer from "../../components/message-container";
 import Header from "../../components/header";
+import RpisTable from "./RpisTable";
 
 const RpiPage = () => {
   const [{ error, data, loading }, refetchRpis] = useAxiosCustom(
-    process.env.REACT_APP_BACKEND_BASE_URL +
-      "/rpi/get_slack_integrations?limit=50"
+    process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_rpis?limit=50"
   );
 
   if (loading) {
@@ -42,6 +42,7 @@ const RpiPage = () => {
         />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <RpisTable rpis={data.rpis} />
         <Pagination
           count={Math.ceil(Number(data.total) / 50)}
           color="primary"

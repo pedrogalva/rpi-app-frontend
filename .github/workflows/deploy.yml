@@ -39,18 +39,12 @@ jobs:
           scp -o StrictHostKeyChecking=no -r ./build/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/build
           scp -o StrictHostKeyChecking=no -r ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:/home/${{ secrets.SSH_USER }}/leitor_rpi_frontend/dist
 
-      #     # Acessar a máquina e reiniciar os serviços
-      #     ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.HOST }} << 'EOF'
-      #       cd leitor_rpi_frontend
-      #       git pull origin main
-
-      #       docker-compose down
-      #       docker-compose pull
-      #       docker-compose up -d
-      #       docker image prune -af
-      #     EOF
-      - name: Deploy application
-        run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.HOST }} << 'EOF'
-            ls
+            cd leitor_rpi_frontend
+            git pull origin main
+
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
+            docker image prune -af
           EOF
