@@ -37,7 +37,7 @@ const RpiPage = () => {
         <Header
           title={"RPIs"}
           subtitle={
-            "Essa página contém todas as RPIs que contiveram algum despacho da Move On."
+            "Esta página contém todas as RPIs que contiveram algum despacho da Move On."
           }
         />
       </Box>

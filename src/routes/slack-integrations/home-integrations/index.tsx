@@ -77,7 +77,7 @@ const SlackIntegrationPage = () => {
       <Header
         title={"Integrações Slack"}
         subtitle={
-          "Essa página é responsável por gerenciar as integrações do Slack com o RPI."
+          "Esta página é responsável por gerenciar as integrações do Slack com o RPI."
         }
       />
       <Box sx={filledButtonSx}>
