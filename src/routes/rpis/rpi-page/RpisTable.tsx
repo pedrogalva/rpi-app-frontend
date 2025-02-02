@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 
 type Props = {
   rpis: {
-    rpi_inpi_id: number;
+    rpi_number: number;
     rpi_date: string;
     rpi_type: string;
     muvon_dispatches_count: number;
@@ -54,11 +54,13 @@ const RpisTable = (props: Props) => {
         </TableHead>
         <TableBody>
           {props.rpis
-            .sort((a, b) => a.rpi_date.localeCompare(b.rpi_date))
+            .sort((a, b) => b.rpi_date.localeCompare(a.rpi_date))
             .map((rpi) => (
-              <TableRow key={rpi.rpi_inpi_id}>
-                <TableCell align="left">{rpi.rpi_inpi_id}</TableCell>
-                <TableCell>{rpi.rpi_date}</TableCell>
+              <TableRow key={rpi.rpi_number}>
+                <TableCell align="left">{rpi.rpi_number}</TableCell>
+                <TableCell>{`${rpi.rpi_date.split("-")[2]}/${
+                  rpi.rpi_date.split("-")[1]
+                }/${rpi.rpi_date.split("-")[0]}`}</TableCell>
                 <TableCell>{rpi.rpi_type}</TableCell>
                 <TableCell>{rpi.muvon_dispatches_count}</TableCell>
                 <TableCell>{rpi.read_status}</TableCell>
@@ -66,7 +68,7 @@ const RpisTable = (props: Props) => {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      navigate(`/rpis/${rpi.rpi_inpi_id}/${rpi.rpi_type}`);
+                      navigate(`/rpis/${rpi.rpi_number}/${rpi.rpi_type}`);
                     }}
                   >
                     VIEW
