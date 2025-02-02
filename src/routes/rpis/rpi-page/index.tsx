@@ -8,9 +8,19 @@ import Header from "../../components/header";
 import RpisTable from "./RpisTable";
 
 const RpiPage = () => {
+  const _limit = 50;
+
   const [{ error, data, loading }, refetchRpis] = useAxiosCustom(
-    process.env.REACT_APP_BACKEND_BASE_URL + "/rpi/get_rpis?limit=50"
+    process.env.REACT_APP_BACKEND_BASE_URL + `/rpi/get_rpis?limit=${_limit}`
   );
+
+  const handlePageChange = (page: number) => {
+    refetchRpis({
+      url:
+        process.env.REACT_APP_BACKEND_BASE_URL +
+        `/rpi/get_rpis?limit=${_limit}&page=${page}`,
+    });
+  };
 
   if (loading) {
     return (
@@ -32,20 +42,24 @@ const RpiPage = () => {
   }
 
   return (
-    <Box>
-      <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
-        <Header
-          title={"RPIs"}
-          subtitle={
-            "Esta página contém todas as RPIs que contiveram algum despacho da Move On."
-          }
-        />
-      </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <RpisTable rpis={data.rpis} />
+    <Box sx={{ maxWidth: 800, margin: "80px auto" }} component="section">
+      <Header
+        title={"RPIs"}
+        subtitle={
+          "Esta página contém todas as RPIs que contiveram algum despacho da Move On."
+        }
+      />
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 8 }} />
+      <RpisTable rpis={data.data} />
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
         <Pagination
-          count={Math.ceil(Number(data.total) / 50)}
+          count={Math.ceil(Number(data.total) / _limit)}
           color="primary"
+          showFirstButton
+          showLastButton
+          onChange={(_, page) => {
+            handlePageChange(page);
+          }}
         />
       </Box>
     </Box>
