@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 
@@ -20,7 +20,10 @@ const RpiPage = () => {
         process.env.REACT_APP_BACKEND_BASE_URL +
         `/rpi/get_rpis?limit=${_limit}&page=${page}`,
     });
+    changePage(page);
   };
+
+  const [actualPage, changePage] = useState(1);
 
   if (loading) {
     return (
@@ -57,6 +60,7 @@ const RpiPage = () => {
           color="primary"
           showFirstButton
           showLastButton
+          page={actualPage}
           onChange={(_, page) => {
             handlePageChange(page);
           }}
