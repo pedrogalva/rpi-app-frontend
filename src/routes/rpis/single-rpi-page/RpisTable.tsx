@@ -68,9 +68,7 @@ const RpisTable = (props: Props) => {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      navigate(
-                        `/rpis/${rpi.rpi_type}?rpi_number=${rpi.rpi_number}`
-                      );
+                      navigate(`/rpis/${rpi.rpi_number}/${rpi.rpi_type}`);
                     }}
                   >
                     VIEW
