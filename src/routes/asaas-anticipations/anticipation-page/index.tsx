@@ -12,14 +12,14 @@ const AnticipationPage = () => {
 
   const [{ error, data, loading }, refetchAnticipations] = useAxiosCustom(
     process.env.REACT_APP_BACKEND_BASE_URL +
-      `/anticipations/get_anticipations?limit=${_limit}`
+      `/anticipations/get_anticipations_installments?limit=${_limit}`
   );
 
   const handlePageChange = (page: number) => {
     refetchAnticipations({
       url:
         process.env.REACT_APP_BACKEND_BASE_URL +
-        `/anticipations/get_anticipations?limit=${_limit}&page=${page}`,
+        `/anticipations/get_anticipations_installments?limit=${_limit}&page=${page}`,
     });
     changePage(page);
   };
