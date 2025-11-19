@@ -8,9 +8,10 @@ import {
   ListItemText,
   Box,
 } from "@mui/material";
-import { Home, Settings, TollOutlined, Book } from "@mui/icons-material";
+import { Home, Settings, TollOutlined, Book, Money } from "@mui/icons-material";
 
 import { useSidebar } from "../../context/SidebarContext";
+import { text } from "express";
 
 const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebar();
@@ -20,6 +21,7 @@ const Sidebar = () => {
     { text: "Home", icon: <Home />, link: "/" },
     { text: "Integrações", icon: <TollOutlined />, link: "/integrations" },
     { text: "RPIs", icon: <Book />, link: "/rpis" },
+    { text: "Antecipações", icon: <Money />, link: "/anticipations" },
     { text: "Configurações", icon: <Settings />, link: "/settings" },
   ];
 

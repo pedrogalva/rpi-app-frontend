@@ -5,6 +5,7 @@ import IntegrationsRouter from "./slack-integrations/integrations-router";
 import HomePage from "./home/home-router";
 import AuthRouter from "./auth/auth-router";
 import RpisRouter from "./rpis/rpi-router";
+import AnticipationRouter from "./asaas-anticipations/anticipation-router";
 
 import { RouteChangeValidator } from "./context/AuthContext";
 
@@ -23,6 +24,7 @@ function RouterComp() {
           <HomePage />
           <IntegrationsRouter />
           <RpisRouter />
+          <AnticipationRouter />
         </RouteChangeValidator>
       </ContextProvider>
     </BrowserRouter>
