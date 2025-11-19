@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 
 // type Props = {
 //   anticipations: {
@@ -57,7 +57,7 @@ const TableHeaderCell = (props: Record<any, any>) => (
 );
 
 const AnticipationsTable = (props: Props) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <TableContainer component={Paper} sx={tableSx}>

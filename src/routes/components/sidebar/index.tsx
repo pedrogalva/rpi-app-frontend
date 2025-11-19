@@ -11,7 +11,6 @@ import {
 import { Home, Settings, TollOutlined, Book, Money } from "@mui/icons-material";
 
 import { useSidebar } from "../../context/SidebarContext";
-import { text } from "express";
 
 const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebar();
